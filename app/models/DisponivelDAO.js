@@ -3,7 +3,7 @@ function DisponivelDAO( connection ){
 }
 
 DisponivelDAO.prototype.listar = function( callback) {
-	this._connection.query('select * from DISPONIVEL order by id', callback);	
+	this._connection.query('select d.id, d.nome, d.agencia, d.conta, b.nome as banco from DISPONIVEL d inner join BANCO b on( b.id = d.banco ) order by d.id', callback);	
 }
 
 DisponivelDAO.prototype.salvar = function( disponivel, callback) {	

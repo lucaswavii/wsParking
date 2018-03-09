@@ -36,7 +36,7 @@
                                     <table width="100%" class="table table-striped table-bordered table-hover" id="grdDisponivel">
                                         <thead>
                                             <tr>
-                                                <th>Código</th>
+                                                <th>Nome</th>
                                                 <th>Banco</th>
                                                 <th>Agência</th>
                                                 <th>Conta</th>
@@ -46,11 +46,12 @@
                                         <tbody>
                                             <% for (var i = 0; i < disponiveis.length; ++i) { %>
                                                 <tr class="odd gradeX">
-                                                    <td><%= disponiveis[i].codigo %></td>
+                                                    <td><%= disponiveis[i].nome %></td>
                                                     <td><%= disponiveis[i].banco %></td>
                                                     <td><%= disponiveis[i].agencia %></td>
                                                     <td><%= disponiveis[i].conta %></td>
-                                                    <td class="center">                                                            
+                                                    <td class="center">     
+                                                        <% console.log(disponiveis[i])%>                                                       
                                                         <a class="btn btn-info" href="/disponivelEditar/<%= disponiveis[i].id %>">
                                                             <i class="glyphicon glyphicon-edit icon-white"></i>
                                                             Editar

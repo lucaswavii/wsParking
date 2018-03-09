@@ -19,8 +19,18 @@ module.exports.index = function( application, req, res ){
 module.exports.novo = function( application, req, res ){    
     if( req.session.usuario == undefined ) {
 		res.redirect("login")			
-	}
-    res.render('disponivelEditar', { validacao : {}, disponiveis : {}, sessao: req.session.usuario });
+    }
+    var connection = application.config.dbConnection();
+    var bancoDao = new application.app.models.BancoDAO(connection);
+    
+    bancoDao.listar(function(error, bancos){
+        if( error ) {
+            res.render('disponivelListar', { validacao : [ {'msg': error.sqlMessage }], disponiveis : {}, sessao: req.session.usuario });
+            return;
+        }
+        res.render('disponivelEditar', { validacao : {}, disponiveis : {}, bancos:bancos, sessao: req.session.usuario });
+    
+    });
 }
 
 module.exports.editar = function( application, req, res ){
@@ -31,15 +41,18 @@ module.exports.editar = function( application, req, res ){
     
     var connection = application.config.dbConnection();
     var disponivelDao = new application.app.models.DisponivelDAO(connection);
+    var bancoDao = new application.app.models.BancoDAO(connection);
     
-    disponivelDao.editar( req.params._id, function(error, disponiveis){
-        connection.end();
-        if( error ) {
-            res.render('disponivelEditar', { validacao : [ {'msg': error.sqlMessage }], disponiveis : {}, sessao: req.session.usuario });
-            return;
-        }
-        res.render('disponivelEditar', { validacao : {}, disponiveis : disponiveis, sessao: req.session.usuario });
-    });
+    bancoDao.listar(function(error, bancos){
+        disponivelDao.editar( req.params._id, function(error, disponiveis){
+            connection.end();
+            if( error ) {
+                res.render('disponivelEditar', { validacao : [ {'msg': error.sqlMessage }], disponiveis : {}, bancos: bancos, sessao: req.session.usuario });
+                return;
+            }
+            res.render('disponivelEditar', { validacao : {}, disponiveis : disponiveis, bancos: bancos, sessao: req.session.usuario });
+        });
+    })
 }
 
 module.exports.excluir = function( application, req, res ){
@@ -54,7 +67,7 @@ module.exports.excluir = function( application, req, res ){
     disponivelDao.excluir( req.params._id, function(error, disponiveis){
         connection.end();
         if( error ) {
-            res.render('disponivel', { validacao : [ {'msg': error.sqlMessage ? error.sqlMessage : error }], disponiveis : {}, sessao: req.session.usuario });
+            res.render('disponivel', { validacao : [ {'msg': error.sqlMessage ? error.sqlMessage : error }], disponiveis : {}, bancos: {}, sessao: req.session.usuario });
             return;
         }
         res.redirect("/disponivel");
@@ -68,7 +81,7 @@ module.exports.salvar = function( application, req, res ){
     }
     
     var dadosForms = req.body;
-    req.assert('codigo', 'Código é obrigatório').notEmpty();
+    req.assert('nome', 'Nome é obrigatório').notEmpty();
     req.assert('banco', 'banco é obrigatório').notEmpty();       
     req.assert('agencia', 'Agência é obrigatória').notEmpty();       
     req.assert('conta', 'Conta é obrigatória').notEmpty();       
@@ -77,7 +90,7 @@ module.exports.salvar = function( application, req, res ){
 
     if(erros){
       
-        res.render('disponivelEditar', {validacao: erros,  disponiveis: [ dadosForms], sessao: req.session.usuario});
+        res.render('disponivelEditar', {validacao: erros,  disponiveis: [ dadosForms], bancos: {}, sessao: req.session.usuario});
         return;
     }
     
@@ -87,7 +100,7 @@ module.exports.salvar = function( application, req, res ){
     disponivelDao.salvar(dadosForms, function(error, result){
         connection.end();
         if( error ) {
-            res.render('disponivelEditar', { validacao : [ {'msg': error.sqlMessage }], disponiveis :[ dadosForms], sessao: req.session.usuario });
+            res.render('disponivelEditar', { validacao : [ {'msg': error.sqlMessage }], disponiveis :[ dadosForms], bancos: {}, sessao: req.session.usuario });
             return;
         }
         res.redirect('/disponivel');

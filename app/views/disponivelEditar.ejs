@@ -46,29 +46,37 @@
                                     </div>
                                     <% } %>
                                     <div class="form-group">
-                                        <label>Codigo</label>
-                                        <input class="form-control" required="true" name="codigo" id="codigo" placeholder="Codigo" value="<%= ( disponiveis.length == 1 ? disponiveis[0].codigo : "" ) %>">
+                                        <label>Nome</label>
+                                        <input class="form-control" required="true" name="nome" id="nome" placeholder="Codigo" value="<%= ( disponiveis.length == 1 ? disponiveis[0].nome : "" ) %>">
+                                    </div>
+                                    <div class="form-group" >
+                                        <label>Banco</label>
+                                        <select class="form-control" required="true" name="banco">
+                                            <option value="">Selecione</option>
+                                        <% if( bancos.length > 0 ) {%>
+                                            <% for(var i=0; i < bancos.length; i++) {%>
+                                                <option value="<%= bancos[i].id %>" <%= ( disponiveis.length > 0 && disponiveis[0].banco == bancos[i].id ? "selected" : "" ) %>><%= bancos[i].nome %></option>
+                                            <% } %>
+                                        <% } %>
+                                        </select>
                                     </div>
                                     <div class="form-group">
-                                        <label>Banco</label>
-                                        <input class="form-control" required="true" name="banco" id="banco" placeholder="Código do Banco(FEBRABAN)" maxlength="10" value="<%= ( disponiveis.length == 1 ? disponiveis[0].banco : "" ) %>">
-                                        </div>
-                                        <div class="form-group">
                                         <label>Agência</label>
                                         <input class="form-control" required="true" name="agencia" id="agencia" placeholder="Agência" value="<%= ( disponiveis.length == 1 ? disponiveis[0].agencia : "" ) %>">
-                                        </div>   
-                                        <div class="form-group">
+                                    </div>   
+                                    <div class="form-group">
                                         <label>Conta</label>
                                         <input class="form-control" required="true" name="conta" id="conta" placeholder="Conta" value="<%= ( disponiveis.length == 1 ? disponiveis[0].conta : "" ) %>">
-                                        </div> 
-                                        <% var output = sessao.permissao.filter(function(value){ return value.modulo == 5;}) %>
-                                        <% if( output != undefined && output.length > 0 && disponiveis.length == 1 && output[0].alterar == 'S') { %>
+                                    </div> 
+                                    <% var output = sessao.permissao.filter(function(value){ return value.modulo == 5;}) %>
+                                    <% if( output != undefined && output.length > 0 && disponiveis.length == 1 && output[0].alterar == 'S') { %>
                                         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal2">Salvar</button>
-                                        <% } else if( output != undefined && output.length > 0 && output[0].incluir == 'S' ) {%>
+                                    <% } else if( output != undefined && output.length > 0 && output[0].incluir == 'S' ) {%>
                                         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal2">Salvar</button>
-                                        <% } else { %>                                                                             
-                                        <button type="button" class="btn btn-primary disabled">Salvar</button>
-                                        <% } %>
+                                    <% } else { %>                                                                             
+                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal2">Salvar</button>
+                                        <!--<button type="button" class="btn btn-primary disabled">Salvar</button> -->
+                                    <% } %>
                                         <button type="reset" class="btn btn-danger" onclick="window.location.href='/disponivel'">Cancelar</button>
                                     </div>
                                         <!-- Modal -->
