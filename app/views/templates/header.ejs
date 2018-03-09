@@ -1,0 +1,207 @@
+<!-- Navigation -->
+<nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="/index">WS PARKING v2.0</a>
+    </div>
+    <!-- /.navbar-header -->
+    
+    <ul class="nav navbar-top-links navbar-right">
+        <!-- /.dropdown -->
+        <li class="dropdown">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                <i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
+            </a>
+            <ul class="dropdown-menu dropdown-user">
+                <li><a href="/index"><i class="fa fa-user fa-fw"></i><%= sessao.nome %></a>
+                </li>
+                <li><a href="#" data-toggle="modal" data-target="#alterarPerfil"><i class="fa fa-gear fa-fw"></i> Alterar</a>
+                </li>
+                <li class="divider"></li>
+                <li><a href="/logout"><i class="fa fa-sign-out fa-fw"></i> Sair</a>
+                </li>
+            </ul>
+            <!-- /.dropdown-user -->
+        </li>
+        <!-- /.dropdown -->
+    </ul>
+    <!-- /.navbar-top-links -->
+    
+
+    <div class="navbar-default sidebar" role="navigation">
+        <div class="sidebar-nav navbar-collapse">
+            <ul class="nav" id="side-menu">                        
+                <li>
+                    <a href="#"><i class="fa fa-list-alt fa-fw"></i> Cadastros<span class="fa arrow"></span></a>
+                    <ul class="nav nav-second-level">
+                        <li>
+                            <a href="/empresa"><i class="fa fa-building-o fa-fw"></i> Empresas</a>
+                        </li>   
+                        <li>
+                            <a href="/cliente"><i class="fa fa-users fa-fw"></i> Clientes</a>
+                        </li>   
+                        <li>
+                            <a href="/produto"><i class="fa fa-barcode"></i> Produtos </a>
+                        </li>  
+                        <li>
+                            <a href="/funcionario"><i class="fa fa-user"></i> Funcionário </a>
+                        </li>                                   
+                    </ul>
+                    <!-- /.nav-second-level -->
+                </li>
+                <li>
+                    <a href="#"><i class="fa fa-gears"></i> Auxiliares<span class="fa arrow"></span></a>
+                    <ul class="nav nav-second-level">
+                        <li>
+                            <a href="#"><i class="fa fa-angle-double-right fa-fw"></i> Financeiro <span class="fa arrow"></span></a>
+                            <ul class="nav nav-third-level">
+                                <li>
+                                    <a href="/disponivel"><i class="fa fa-money fa-fw"></i> Disponíveis </a>
+                                </li>
+                                <li>
+                                    <a href="/pagamento"><i class="fa fa-credit-card fa-fw"></i> Forma de Pagamentos</a>
+                                </li>
+                            
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="#"><i class="fa fa-angle-double-right fa-fw"></i> Prospecção <span class="fa arrow"></span></a>
+                            <ul class="nav nav-third-level">
+                                
+                                <li>
+                                    <a href="/profissao"><i class="fa fa-briefcase fa-fw"></i> Profissão </a>
+                                </li>
+                                <li>
+                                    <a href="/indicacao"><i class="fa fa-hand-o-right  fa-fw"></i> Tipos de Indicação </a>
+                                </li>
+                                <li>
+                                    <a href="/status"><i class="fa fa-rss-square fa-fw"></i> Status </a>
+                                </li>                               
+                                
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="#"><i class="fa fa-angle-double-right fa-fw"></i> Produtos <span class="fa arrow"></span></a>
+                            <ul class="nav nav-third-level">
+                                <li>
+                                    <a href="/facilitador"><i class="fa fa-briefcase fa-fw"></i> Falicitadores</a>
+                                </li>
+                                <li>
+                                    <a href="/etapa"><i class="fa fa-tasks fa-fw"></i> Etapas </a>
+                                </li>
+                                <li>
+                                    <a href="/tipoProduto"><i class="fa fa-book fa-fw"></i> Tipos Produtos </a>
+                                </li>
+                                <li>
+                                    <a href="/turma"><i class="fa fa-group fa-fw"></i> Turmas </a>
+                                </li>
+                                <li>
+                                    <a href="/cidade"><i class="fa fa-list-alt fa-fw"></i> Cidades </a>
+                                </li>                                
+                                
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="#"><i class="fa fa-angle-double-right fa-fw"></i> Clientes <span class="fa arrow"></span></a>
+                            <ul class="nav nav-third-level">
+                                <li>
+                                    <a href="/tipoFuncionario"><i class="fa fa-user-md fa-fw"></i> Tipo Funcionário </a>
+                                </li>                                
+    
+                            </ul>
+                        </li>                            
+                    </ul>
+                </li>
+                <li>
+                    <a href="#"><i class="fa fa-suitcase fa-fw"></i> Operações<span class="fa arrow"></span></a>
+                    <ul class="nav nav-second-level">
+                        <li>
+                            <a href="/prospeccao"><i class="fa fa-comments-o fa-fw"></i> Prospecção </a>
+                        </li>
+                        <li>
+                            <a href="/financeiro"><i class="fa fa-credit-card fa-fw"></i> Financeiro </a>
+                        </li>                                
+                    </ul>
+                    <!-- /.nav-second-level -->
+                </li>
+                <li>
+                    <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> Relatórios<span class="fa arrow"></span></a>
+                    <ul class="nav nav-second-level">
+                        <li>
+                            <a href="/produtoRelatorio"><i class="fa fa-files-o fa-fw"></i>Produtos</a>
+                        </li>
+                        <li>
+                            <a href="/clienteListaRelatorio"><i class="fa fa-files-o fa-fw"></i>Clientes</a>
+                        </li>
+                        <li>
+                            <a href="/vendas"><i class="fa fa-files-o fa-fw"></i>Vendas</a>
+                        </li>
+                        <li>
+                            <a href="disponivelRelatorio"><i class="fa fa-files-o fa-fw"></i>Disponível</a>
+                        </li>
+                    </ul>
+                    <!-- /.nav-second-level -->
+                </li>
+
+                <li>
+                    <a href="#"><i class="fa fa-lock fa-fw"></i> Segurança<span class="fa arrow"></span></a>
+                    <ul class="nav nav-second-level">
+                        <li>
+                            <a href="/usuario"><i class="fa fa-user fa-fw"></i> Usuário</a>
+                       </li>
+                        <li>
+                            <a href="/grupo"><i class="fa fa-group fa-fw"></i> Grupo</a>
+                        </li>
+                        <li>
+                            <a href="/permissao"><i class="fa fa-gears fa-fw"></i> Permissão</a>
+                        </li>
+                    </ul>
+                    <!-- /.nav-second-level -->
+                </li>
+
+            </ul>
+        </div>
+        <!-- /.sidebar-collapse -->
+    </div>
+    <!-- /.navbar-static-side -->
+</nav>
+<!-- Modal 1 -->
+<form role="form" action="/alterarSenha" method="post">
+                            
+<div class="modal fade" id="alterarPerfil" tabindex="-1" role="dialog" aria-labelledby="alterarPerfilLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModal1Label">Perfil Acesso</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Registro</label>
+                    <input class="form-control disabled" readonly="true" name="id" id="id" placeholder="" value="<%= sessao.id %>">
+                 </div>
+                 <div class="form-group">
+                    <label>Nome</label>
+                    <input class="form-control disabled" readonly="true" name="nome" id="nome" placeholder="" value="<%= sessao.nome %>">
+                </div>
+                <div class="form-group">
+                    <label>Alterar Senha</label>
+                    <input class="form-control" placeholder="Password" name="senha" id="senha" type="password">
+                </div>                     
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                <button type="submit" class="btn btn-primary">Confirmar</button>
+
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+<!-- /.modal-dialog -->
+</div>
+</form>

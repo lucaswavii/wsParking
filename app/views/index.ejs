@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+   <% include /templates/head %>
+</head>
+
+<body onload="startTime()">
+    <div id="wrapper">
+        <% include /templates/header %>  
+        
+        <!-- Page Content -->
+        <div id="page-wrapper">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h1 class="page-header">Dashboard</h1>
+                    </div>
+                    <!-- /.col-lg-12 -->
+                </div>
+                <div class="row">
+                    <div class="col-lg-3 col-md-6">
+                        <div class="panel panel-primary">
+                            <div class="panel-heading">
+                                <div class="row">
+                                    <div class="col-xs-3">
+                                        <i class="fa fa-automobile fa-5x"></i>
+                                    </div>
+                                    <div class="col-xs-9 text-right">
+                                        <% if( resultado != undefined) { %>
+                                        <div class="huge"><%= ( resultado.length > 0 && resultado[0].prospeccoes ? resultado[0].prospeccoes : 0 ) %></div>
+                                        <% } else { %>
+                                        <div class="huge">0</div>
+                                        <% } %>
+                                        <div>Total Veículos</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <a href="#">
+                                <div class="panel-footer">
+                                    <span class="pull-left">Total do mês</span>
+                                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <div class="panel panel-green">
+                            <div class="panel-heading">
+                                <div class="row">
+                                    <div class="col-xs-3">
+                                        <i class="fa fa-arrow-circle-up fa-5x"></i>
+                                    </div>
+                                    <div class="col-xs-9 text-right">
+                                        <% if( resultado != undefined) { %>                                        
+                                        <div class="huge"><%=( resultado.length > 0 && resultado[1].prospeccoes ? resultado[1].prospeccoes : 0 )  %></div>
+                                        <% } else { %>
+                                        <div class="huge">0</div>
+                                        <% } %>
+                                        <div>Entradas Dia</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <a href="#">
+                                <div class="panel-footer">
+                                    <span class="pull-left">Entradas Mês</span>
+                                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <div class="panel panel-yellow">
+                            <div class="panel-heading">
+                                <div class="row">
+                                    <div class="col-xs-3">
+                                        <i class="fa fa-arrow-circle-down fa-5x"></i>
+                                    </div>
+                                    <div class="col-xs-9 text-right">
+                                        <% if( resultado != undefined) { %>                                        
+                                        <div class="huge"><%= ( resultado.length > 0 && resultado[2].prospeccoes ? resultado[2].prospeccoes : 0 ) %></div>
+                                        <% } else { %>
+                                        <div class="huge">0</div>
+                                        <% } %>
+                                        
+                                        <div>Saída Dia</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <a href="#">
+                                <div class="panel-footer">
+                                    <span class="pull-left">Saída Mês</span>
+                                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <div class="panel panel-red">
+                            <div class="panel-heading">
+                                <div class="row">
+                                    <div class="col-xs-3">
+                                        <i class="fa fa-money fa-5x"></i>
+                                    </div>
+                                    <div class="col-xs-9 text-right">
+                                        <% if( resultado != undefined) { %>                                        
+                                        <div class="huge"><%= ( resultado.length > 0 && resultado[3].prospeccoes ? resultado[3].prospeccoes : 0 ) %></div>
+                                        <% } else { %>
+                                        <div class="huge">0</div>
+                                        <% } %>
+                                        
+                                        <div>Total Faturamento</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <a href="#">
+                                <div class="panel-footer">
+                                    <span class="pull-left">Total Faturado Mês</span>
+                                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.row -->
+            </div>
+                
+            <!-- /.container-fluid -->
+        </div>        
+        <!-- /#page-wrapper -->     
+    </div>
+    <% include /templates/footer %>
+    
+</body>
+
+</html>

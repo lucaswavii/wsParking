@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+   <% include /templates/head %>
+</head>
+
+<body>
+    <div id="wrapper">
+    <% include /templates/header %>
+        <!-- Page Content -->
+        <div id="page-wrapper">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h1 class="page-header">Permissão de Grupo</h1>
+                    </div>
+                    <!-- /.col-lg-12 -->
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        
+                        <% if(validacao.length > 0){ %>
+                            <div class="panel-body">
+                            <% for(var i = 0; i < validacao.length; i++) {%>
+                                <div class="alert alert-danger alert-dismissable">
+                                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                                    <a href="#" class="alert-link">Erro:</a>.<%= validacao[i].msg %>
+                                </div>
+                            <% } %>
+                            </div>
+                        <% } %>
+                            <div class="row">
+                        
+                                <div class="panel-group" id="accordion">
+                                
+                                    <% for(var i = 0; i < modulos.length; i++ ) { %>
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading">
+                                            <h4 class="panel-title">
+                                                <a data-toggle="collapse" data-parent="#accordion" href="#<%= modulos[i].id %>"><%= modulos[i].nome %></a>
+                                            </h4>
+                                        </div>
+                                        <div id="<%= modulos[i].id %>" class="<%= modulo == modulos[i].id ? 'panel-collapse collapse in' : 'panel-collapse collapse' %>">
+                                            <div class="panel-body">
+                                                <form role="form" action="/permissaoSalvar" method="post">
+                                                
+                                                    <div class="form-group col-lg-6" >
+                                                        <label>Grupo de Permissão</label>
+                                                        <select class="form-control" name="grupo" readonly="true">
+                                                        <% if( grupos.length > 0 ) {%>
+                                                            <option value="<%= grupos[0].id %>" selected><%= grupos[0].nome %></option>
+                                                        <% } %>
+                                                        </select>
+                                                    </div>
+
+                                                    <div class="form-group col-lg-6" >
+                                                        <label>Módulo</label>
+                                                        <select class="form-control" name="modulo" readonly="true">
+                                                            <option value="<%= modulos[i].id %>" selected><%= modulos[i].nome %></option>
+                                                        </select>
+                                                    </div>
+                                                    <% var output = permissoes.filter(function(value){ return value.modulo == modulos[i].id;}) %>
+                                                    <div class="form-group col-lg-6" >
+                                                        <label class="checkbox-inline">
+                                                            <% if( output[0] != undefined && output[0].ver == 'S' ) { %>
+                                                            <input type="checkbox" id="ver" name="ver" checked=true>Ver
+                                                            <% } else { %>
+                                                            <input type="checkbox" id="ver" name="ver">Ver
+                                                            <% } %>
+                                                        </label>
+                                                        <label class="checkbox-inline">
+                                                            <% if( output[0] != undefined && output[0].incluir == 'S' ) { %>
+                                                            <input type="checkbox" id="incluir" name="incluir" checked=true>Incluir
+                                                            <% } else { %>
+                                                            <input type="checkbox" id="incluir" name="incluir">Incluir
+                                                            <% } %>
+                                                        </label>
+                                                        <label class="checkbox-inline">
+                                                            <% if( output[0] != undefined && output[0].alterar == 'S' ) { %>
+                                                            <input type="checkbox" id="alterar" name="alterar" checked=true>Alterar
+                                                            <% } else { %>
+                                                            <input type="checkbox" id="alterar" name="alterar">Alterar
+                                                            <% } %>
+                                                        </label>
+                                                        <label class="checkbox-inline">
+                                                            <% if( output[0] != undefined && output[0].excluir == 'S' ) { %>
+                                                            <input type="checkbox" id="excluir" name="excluir" checked=true>Excluir
+                                                            <% } else { %>
+                                                            <input type="checkbox" id="excluir" name="excluir" <%= output[0] != undefined && output[0].excluir == 'S' ? checked=true : null  %>>Excluir
+                                                            <% } %>
+                                                        </label>
+                                                    
+                                                    </div>
+                                                    <% var output = sessao.permissao.filter(function(value){ return value.modulo == 24;}) %>
+                                                    <% if( output != undefined && output.length > 0 && permissoes.length == 1 && output[0].alterar == 'S') { %>
+                                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal2">Salvar</button>
+                                                    <% } else if( output != undefined && output.length > 0 && output[0].incluir == 'S' ) {%>
+                                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal2">Salvar</button>
+                                                    <% } else { %>                                                                             
+                                                    <button type="button" class="btn btn-primary disabled">Salvar</button>
+                                                    <% } %>
+
+                                                    <button type="reset" class="btn btn-danger" onclick="window.location.href='/permissao'">Cancelar</button>
+                                                    <!-- Modal -->
+                                                    <div class="modal fade" id="myModal2<%= modulos[i].id %>" tabindex="-1" role="dialog" aria-labelledby="myModal1Label" aria-hidden="true">
+                                                        <div class="modal-dialog">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                                                    <h4 class="modal-title" id="myModal1Label">Salvando os Dados</h4>
+                                                                </div>
+                                                                <div class="modal-body">
+                                                                    Deseja realmente salvar o registro?
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                                                                    <button type="submit" class="btn btn-primary">Confirmar</button>
+                                                                </div>
+                                                            </div>
+                                                            <!-- /.modal-content -->
+                                                        </div>
+                                                        <!-- /.modal-dialog -->
+                                                    </div>
+                                                </form>                                                
+                                            </div>
+                                        </div>
+                                    </div>
+                                <% } %>                                    
+                            </div>
+
+                        </div>
+
+                    </div>
+                
+                </div>
+            </div>        
+        </div>
+    <% include /templates/footer %>
+</body>
+
+</html>
