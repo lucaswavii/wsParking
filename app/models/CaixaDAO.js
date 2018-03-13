@@ -6,6 +6,10 @@ CaixaDAO.prototype.listar = function( callback) {
 	this._connection.query('select * from CAIXA order by id', callback);	
 }
 
+CaixaDAO.prototype.pegaEcf = function( ip, callback) {
+	this._connection.query('select * from CAIXA where ip = ? order by id', ip, callback);	
+}
+
 CaixaDAO.prototype.salvar = function( caixa, callback) {	
 	if( !caixa.id ) {
 		this._connection.query('insert into CAIXA set ?', caixa, callback);

@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+   <% include /templates/head %>
+</head>
+
+<body onload="startTime()">
+    <div id="wrapper">
+        <% include /templates/header %>  
+        
+        <!-- Page Content -->
+        <div id="page-wrapper">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h1 class="page-header">PDV Vendas</h1>
+                    </div>
+                    <% function leftPad(value, totalWidth, paddingChar) { %>
+                    <%  var length = totalWidth - value.toString().length + 1; %>
+                    <%    return Array(length).join(paddingChar || '0') + value; %>
+                    <%  }; %>
+                    <% var now = new Date() %>
+                    <% var hoje = leftPad(now.getDate(), 2) + '/' + leftPad((now.getMonth() + 1), 2) + '/' +  leftPad(now.getFullYear(), 4) %>
+                    <% var hora = leftPad(now.getHours(),2) + ":" + leftPad(now.getMinutes(),2) %>
+                    <% var hoje = leftPad(now.getFullYear(), 4) + '-' + leftPad((now.getMonth() + 1), 2)  + '-' +   leftPad(now.getDate(), 2)   %>
+                    
+                    <% function getFormattedDate(date) { %>
+                        <%  var year = date.getFullYear(); %>
+                        <%  var month = (1 + date.getMonth()).toString(); %>
+                        <%  month = month.length > 1 ? month : '0' + month; %>
+                        <%  var day = date.getDate().toString(); %>
+                        <%  day = day.length > 1 ? day : '0' + day; %>
+                        <%  return  year  + '-' + month + '-' + day; %>
+                    <% } %>
+                    
+                    <!-- /.col-lg-12 -->
+                </div>
+                <div class="row">
+                    <% if( caixas.length > 0 ) { %>
+                    
+                        <% if( pdvs.length > 0 ) { %>
+                    
+                            <p>
+                    
+                                <button type="button" class="btn btn-primary disabled">Abertura</button>
+                                <button type="button" class="btn btn-success">Vendas</button>
+                                <button type="button" class="btn btn-info">Despesas</button>
+                                <button type="button" class="btn btn-warning">Recebimento</button>                                
+                                <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#myModal">Fechamento</button>
+                            
+                            </p>
+                    
+                        <% } else { %>
+                            <p>
+                            
+                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Abertura</button>
+                                <button type="button" class="btn btn-success disabled">Vendas</button>
+                                <button type="button" class="btn btn-info disabled">Despesas</button>
+                                <button type="button" class="btn btn-warning disabled">Recebimento</button>                                
+                                <button type="button" class="btn btn-danger disabled">Fechamento</button>
+                            </p>
+                        <% } %>
+                    
+                    <% } else {  %>
+                        <p>
+                            <button type="button" class="btn btn-primary disabled">Abertura</button>
+                            <button type="button" class="btn btn-success disabled">Vendas</button>
+                            <button type="button" class="btn btn-info disabled">Despesas</button>
+                            <button type="button" class="btn btn-warning disabled">Recebimento</button>                                
+                            <button type="button" class="btn btn-danger disabled">Fechamento</button>
+                            
+                        </p>
+                        
+                    <% } %>
+                    <div class="col-lg-12">
+                        
+                        <% if( caixas.length > 0 && pdvs.length > 0 ) { %>
+
+                            <div class="panel panel-green">                                        
+                                <div class="panel-heading">
+                                    CAIXA LIVRE
+                                </div>
+                        <% } else { %>
+
+                            <div class="panel panel-red">                                        
+                                <div class="panel-heading">
+                                    CAIXA FECHADO
+                                </div>
+                                
+                        <% } %>
+                            <div class="panel-body">
+                                <% if(validacao.length > 0){ %>
+                                    <% for(var i = 0; i < validacao.length; i++) {%>
+                                        <div class="alert alert-danger alert-dismissable">
+                                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                                            <a href="#" class="alert-link">Erro:</a>.<%= validacao[i].msg %>
+                                        </div>
+                                    <% } %>
+                                <% } %>
+                                    
+                                <div class=" col-md-12 text-center">
+                                    <img class="img-responsive" src="/pdv.png" alt="Imagem" width="30%"/>
+                                </div>
+                            </div>
+                            <% if( caixas.length > 0 && pdvs.length > 0 ) { %>
+                                <div class="panel-footer">
+                                    CAIXA LIVRE.
+                                </div>
+                            <% } else { %>
+                                <div class="panel-footer">
+                                    PREZADO CLIENTE DIRIJA-SE AO PRÓXIMO CAIXA.
+                                </div>
+                            <% } %>
+                            
+                        </div>
+                            <!-- /.col-lg-4 -->
+                    </div>    
+                    <!-- Modal -->
+                    <form role="form" action="/pdvSalvar" method="post">
+                        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                        <h4 class="modal-title" id="myModalLabel">Abertura Caixa</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="container-fluid">
+                            
+                                            <div class="row">
+                                                
+                                                
+                                                <% if( caixas.length > 0 && pdvs.length > 0 ) { %>
+                                                <div class="form-group col-lg-12">
+                                                    <label>Id:</label>
+                                                    <input class="form-control" name="id" id="id" readonly="true" value="<%= pdvs[0].id %>">                                            
+                                                </div>
+                                    
+                                                <div class="form-group col-lg-6">
+                                                    <label>Abertura:</label>
+                                                    <input type="date" class="form-control" name="abertura" id="abertura" placeholder="Abertura caixa" required=true value="<%= getFormattedDate( pdvs[0].abertura ) %>" readonly=true>                                            
+                                                </div>
+
+                                                <div class="form-group col-lg-6">
+                                                    <label>Fechamento:</label>
+                                                    <input type="date" class="form-control" name="fechamento" id="fechamento" placeholder="Fechamento Caixa"  value="<%= getFormattedDate( pdvs[0].abertura ) %>" readonly=true>                                            
+                                                </div>
+                                                <% } else { %>
+                                                    <div class="form-group col-lg-6">
+                                                        <label>Data:</label>
+                                                        <input type="date" class="form-control" name="data" id="data" placeholder="Emissão"  readonly="true" value="<%= hoje %>">                                            
+                                                    </div>
+                                        
+                                                    <div class="form-group col-lg-6">
+                                                        <label>Hora:</label>
+                                                        <input type="datetime" class="form-control" name="hora" id="hora" placeholder="Hora"  readonly="true" value="<%= hora %>">                                            
+                                                    </div> 
+                                                    
+                                                    <div class="form-group col-lg-6">
+                                                        <label>Abertura:</label>
+                                                        <input type="date" class="form-control" name="abertura" id="abertura" placeholder="Abertura caixa" required=true value="<%= hoje %>">                                            
+                                                    </div>
+    
+                                                    <div class="form-group col-lg-6">
+                                                        <label>Fechamento:</label>
+                                                        <input type="date" class="form-control" name="" id="" placeholder="Fechamento Caixa" readonly=true value="">                                            
+                                                    </div>
+                                                    
+                                                <% } %>
+                                                <div class="form-group col-lg-12">
+                                                    <label>Atendente:</label>
+                                                    <select class="form-control" name="funcionario" id="funcionario"  readonly=true>
+                                                    <% if( funcionarios.length > 0 ) { %>
+                                                        <option value="">Selecione</option>
+                                                        <% for(var i = 0; i < funcionarios.length; i++ ) {%>
+                                                            <option value="<%= funcionarios[i].id %>" <%= pdvs.length > 0 && pdvs[0].funcionario == funcionarios[i].id ? "selected" : sessao.funcionario == funcionarios[i].id ? "selected" : ''%>><%= funcionarios[i].nome %></option>
+                                                        <% } %>
+                                                    <% } %>
+                                                    </select> 
+                                                </div>
+                                                <div class="form-group col-lg-12">
+                                                    <label>Caixa:</label>
+                                                    <select class="form-control" name="caixa" id="caixa" readonly=true>
+                                                    <% if( caixas.length > 0 ) { %>
+                                                        <% for(var i = 0; i < caixas.length; i++ ) {%>
+                                                            <option value="<%= caixas[i].id %>" <%= pdvs.length > 0 && pdvs[0].produto == caixas[i].id ? "selected" : ''%>><%= caixas[i].nome %></option>
+                                                        <% } %>
+                                                    <% } %>
+                                                    </select> 
+                                                </div>
+                                                <% if( caixas.length > 0 && pdvs.length > 0 ) { %>
+                                                
+                                                <% } else { %>
+                                                
+                                                <div class="form-group col-lg-6">
+                                                    <label>Saldo:</label>
+                                                    <input type="text" required="true" class="form-control" name="saldo" id="saldo" placeholder="" onkeyup="formataValor(this,event);" value="0,00" readonly=true>                                            
+                                                </div>
+                                                <div class="form-group col-lg-6">
+                                                    <label>Fundo:</label>
+                                                    <input type="text" required="true" class="form-control" name="fundo" id="fundo" placeholder="" onkeyup="formataValor(this,event);" value="0,00" readonly=<% caixas.length > 0 && pdvs.length > 0 ? true : false %>>                                            
+                                                </div>
+                                                
+                                                <% } %>
+                                            </div>
+                                            
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="submit" class="btn btn-primary">Salvar</button>
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                                    </div>
+                                </div>
+                                <!-- /.modal-content -->
+                            </div>
+                            <!-- /.modal-dialog -->
+                        </div>
+                    </form>
+                    
+                </div>
+                <!-- /.row -->
+            </div>
+                
+            <!-- /.container-fluid -->
+        </div>        
+        <!-- /#page-wrapper -->     
+    </div>
+    <% include /templates/footer %>
+    
+</body>
+
+</html>
